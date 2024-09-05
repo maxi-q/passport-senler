@@ -7,6 +7,7 @@ interface SenlerStrategyOptions extends StrategyOptions {
   clientSecret: string;
   callbackURL: string;
 }
+
 const authorizationURL = 'https://senler.ru/cabinet/OAuth2authorize';
 const tokenURL = 'https://senler.ru/ajax/cabinet/OAuth2token';
 
@@ -19,52 +20,53 @@ export class SenlerStrategy extends OAuth2Strategy {
 
   constructor(options: SenlerStrategyOptions) {
     options.authorizationURL = authorizationURL;
-    options.tokenURL = tokenURL;
-
-    options.redirectURI = options.redirectURI;
     options.groupID = options.groupID || '';
+    options.redirectURI = options.redirectURI;
+    options.tokenURL = tokenURL;
 
     super(options, () => {});
 
     this.name = 'senler';
 
+    this._clientSecret = options.clientSecret;
     this._callbackURL = options.callbackURL;
     this._groupID = options.groupID || '';
-    this._clientSecret = options.clientSecret;
-    this._tokenURL = options.tokenURL;
+    this._tokenURL = tokenURL;
     this._clientID = options.clientID;
   }
 
-  authenticate(req: any, options?: object): void {
+  async authenticate(req: any, options?: object): Promise<void> {
     const authorizationCode = req.query.code;
+    this._groupID = req.query.group_id;
+
     if (!authorizationCode) {
+      console.error('authorizationCode is missing in response')
       return super.authenticate(req, options);
     }
 
-    this.exchangeCodeForToken(authorizationCode)
-      .then(response => {
-        this.success(response);
-      })
-      .catch(error => {
-        this.fail(`Failed to exchange authorization code: ${error.message}`);
-      });
+    try {
+      const accessToken = await this.getAccessToken(authorizationCode);
+      this.success({ accessToken });
+    } catch (error) {
+      this.fail(`Failed to exchange authorization code: ${error}`);
+    }
   }
 
-  async exchangeCodeForToken(authorizationCode: string): Promise<string> {
+  async getAccessToken(authorizationCode: string): Promise<string> {
     try {
       const response = await axios.get(this._tokenURL, {
         params: {
           grant_type: 'authorization_code',
           client_id: this._clientID,
           client_secret: this._clientSecret,
-          redirect_uri: this._callbackURL, // Должен совпадать с зарегистрированным callback URL
+          redirect_uri: this._callbackURL, // Must match the registered callback URL
           code: authorizationCode,
           group_id: this._groupID,
         },
       });
 
       if (response.data && response.data.access_token) {
-        return response.data;
+        return response.data.access_token;
       }
 
       throw new Error('No access token in response');

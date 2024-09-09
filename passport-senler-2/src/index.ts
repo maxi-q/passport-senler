@@ -1,9 +1,8 @@
 import axios from 'axios';
-import { Strategy as OAuth2Strategy, StrategyOptions } from 'passport-oauth2';
+import { Strategy as OAuth2Strategy, StrategyOptions, VerifyFunction } from 'passport-oauth2';
 
 interface SenlerStrategyOptions extends StrategyOptions {
   groupID?: string;
-  redirectURI: string;
   clientSecret: string;
   callbackURL: string;
 }
@@ -18,13 +17,10 @@ export class SenlerStrategy extends OAuth2Strategy {
   private _groupID: string;
   private _callbackURL: string;
 
-  constructor(options: SenlerStrategyOptions) {
-    options.authorizationURL = authorizationURL;
+  constructor(options: Omit<SenlerStrategyOptions, 'authorizationURL' | 'tokenURL'>, verify?: VerifyFunction) {
     options.groupID = options.groupID || '';
-    options.redirectURI = options.redirectURI;
-    options.tokenURL = tokenURL;
 
-    super(options, () => {});
+    super({ ...options, authorizationURL, tokenURL }, verify || (() => {}));
 
     this.name = 'senler';
 
@@ -40,7 +36,7 @@ export class SenlerStrategy extends OAuth2Strategy {
     this._groupID = req.query.group_id;
 
     if (!authorizationCode) {
-      console.error('authorizationCode is missing in response')
+      console.error('authorizationCode is missing in response');
       return super.authenticate(req, options);
     }
 
@@ -74,9 +70,4 @@ export class SenlerStrategy extends OAuth2Strategy {
       throw new Error(`Failed to get access token: ${error}`);
     }
   }
-}
-
-
-export function sum(a: number, b: number) {
-  return a + b;
 }

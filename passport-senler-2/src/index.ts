@@ -75,3 +75,8 @@ export class SenlerStrategy extends OAuth2Strategy {
     }
   }
 }
+
+
+export function sum(a: number, b: number) {
+  return a + b;
+}

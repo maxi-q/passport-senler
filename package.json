@@ -1,6 +1,6 @@
 {
   "name": "passport-senler",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "passport for Senler API",
   "main": "dist/index.js",
   "module": "dist/index.esm.js",

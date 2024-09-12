@@ -54,7 +54,7 @@ export default [
       '@typescript-eslint/consistent-type-definitions': ['error', 'interface'],
 
       // Warnings for console usage
-      'no-console': 'warn',
+      'no-console': 'off',
 
       // Allow single named exports without requiring default exports
       'import/prefer-default-export': 'off',

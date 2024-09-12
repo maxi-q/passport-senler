@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { Request } from 'express';
 import { Strategy as OAuth2Strategy, StrategyOptions, VerifyFunction } from 'passport-oauth2';
 
 interface SenlerStrategyOptions extends StrategyOptions {
@@ -20,7 +21,7 @@ export class SenlerStrategy extends OAuth2Strategy {
   constructor(options: Omit<SenlerStrategyOptions, 'authorizationURL' | 'tokenURL'>, verify?: VerifyFunction) {
     options.groupID = options.groupID || '';
 
-    super({ ...options, authorizationURL, tokenURL }, verify || (() => {}));
+    super({ ...options, authorizationURL, tokenURL }, verify || ((): void => {}));
 
     this.name = 'senler';
 
@@ -31,12 +32,11 @@ export class SenlerStrategy extends OAuth2Strategy {
     this._clientID = options.clientID;
   }
 
-  async authenticate(req: any, options?: object): Promise<void> {
-    const authorizationCode = req.query.code;
-    this._groupID = req.query.group_id;
+  async authenticate(req: Request, options?: object): Promise<void> {
+    const authorizationCode = req.query.code?.toString()!;
+    this._groupID = req.query.group_id?.toString()!;
 
     if (!authorizationCode) {
-      console.error('authorizationCode is missing in response');
       return super.authenticate(req, options);
     }
 

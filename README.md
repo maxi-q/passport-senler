@@ -7,10 +7,10 @@
 
 ## Установка
 
-Сначала установите необходимые пакеты, в примере будет использоваться express:
+Сначала установите необходимые пакеты, в примере будет использоваться express (passport устанавливается как зависимость passport-senler):
 
 ```bash
-npm install passport passport-senler express
+npm install passport-senler express
 ```
 
 ## Использование

@@ -1,7 +1,11 @@
-
 # Passport-Senler Strategy Library
+![Tests workflow](https://github.com/maxi-q/passport-senler/actions/workflows/test.yml/badge.svg)
+![Build status](https://github.com/maxi-q/passport-senler/actions/workflows/publish.yml/badge.svg)
+[![npm version](https://img.shields.io/npm/v/passport-senler.svg?style=flat-square)](https://www.npmjs.org/package/passport-senler)
+[![npm downloads](https://img.shields.io/npm/dm/passport-senler.svg?style=flat-square)](https://npm-stat.com/charts.html?package=passport-senler)
+[![install size](https://img.shields.io/badge/dynamic/json?url=https://packagephobia.com/v2/api.json?p=passport-senler&query=$.install.pretty&label=install%20size&style=flat-square)](https://packagephobia.now.sh/result?p=passport-senler)
 
-Эта библиотека предоставляет стратегию аутентификации для интеграции **Senler** с вашим Express приложением через **Passport.js**.
+Библиотека предоставляет стратегию аутентификации для интеграции **Senler** с вашим Express приложением через **Passport.js**.
 
 Используется только для получения токена авторизации, продолжать работу рекомендуем с библиотекой **senler-sdk**
 

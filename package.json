@@ -1,7 +1,20 @@
 {
   "name": "passport-senler",
-  "version": "0.1.3",
-  "description": "passport for Senler API",
+  "version": "0.2.0",
+  "author": "Maxim Galushkin maximkabust@gmail.com",
+  "homepage": "https://github.com/maxi-q/passport-senler#readme",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/maxi-q/passport-senler.git"
+  },
+  "license": "MIT",
+  "keywords": [
+    "sdk",
+    "senler",
+    "api",
+    "vk",
+    "marketing"
+  ],
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
   "source": "src/index.ts",
@@ -10,8 +23,7 @@
     "start": "npm run build && node dist/index.js",
     "build": "microbundle",
     "lint": "eslint --fix",
-    "watch": "microbundle watch",
-    "test": "jest"
+    "watch": "microbundle watch"
   },
   "devDependencies": {
     "@types/jest": "^29.5.12",

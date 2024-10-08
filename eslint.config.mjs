@@ -15,14 +15,13 @@ export default [
   {
     files: [
       'src/**/*.ts',
-      'tests/**/*.ts',
     ],
     languageOptions: {
       ecmaVersion: 2020, // Используем ECMAScript 2020
       sourceType: 'module', // Модули ES
       parser: tsParser,
       parserOptions: {
-        project: './tsconfig.json',
+        project: './lint.tsconfig.json',
       },
     },
     plugins: {

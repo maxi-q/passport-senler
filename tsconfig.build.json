@@ -1,0 +1,12 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "noEmit": false,              // разрешаем эмитить файлы
+    "emitDeclarationOnly": true,  // генерируем только декларации
+    "declaration": true,          // .d.ts
+    "declarationMap": true,
+    "outDir": "dist",
+    "rootDir": "src"              // чтобы не было лишнего уровня dist/src
+  },
+  "include": ["src"]
+}
